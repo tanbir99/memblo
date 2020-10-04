@@ -1,15 +1,17 @@
-# See http://help.github.com/ignore-files/ for more about ignoring files.
-
 # compiled output
 /client/dist
 /client/tmp
 /client/out-tsc
+
 # Only exists if Bazel was run
 /client/bazel-out
 
 # dependencies
 /client/node_modules
 /server/node_modules
+
+#auth
+/server/passport-setup.js
 
 # profiling files
 /client/chrome-profiler-events*.json
