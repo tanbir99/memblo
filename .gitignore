@@ -10,8 +10,8 @@
 /client/node_modules
 /server/node_modules
 
-#auth
-/server/passport-setup.js
+# env var
+/server/.env
 
 # profiling files
 /client/chrome-profiler-events*.json
