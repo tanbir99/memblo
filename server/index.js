@@ -3,7 +3,9 @@ const app = new express();
 const cors = require( 'cors' );
 const bodyParser = require( 'body-parser' )
 const passport = require('passport')
+
 require('./passport-setup')
+require('./sequelize-setup')
 
 
 app.use(cors())
