@@ -16,6 +16,7 @@ const app = new express();
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 app.use(session({
+  resave: false,
   genid: (req) => {
     return uuidv4()
   },
@@ -37,11 +38,13 @@ app.get('/auth/google',
 app.get('/auth/google/callback', 
   passport.authenticate('google', { failureRedirect: '/failed' }),
   function(req, res) {
+    console.log(req.user)
+    // console.log(req.user._json.name)
     res.redirect('/success');
 });
 
 app.get('/failed', (req, res) => res.send("You failed to login"))
-app.get('/success', (req, res) => res.send("It works!"))
+app.get('/success', (req, res) => res.send(`It works, ` + req.user.email + `!`))
 
 app.post('/authenticate', (req, res) => {
     res.status(200).json({"statusCode" : 200 ,"message" : "hello"});
