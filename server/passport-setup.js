@@ -5,39 +5,36 @@ const passport = require('passport')
 const googleStrategy = require('passport-google-oauth20').Strategy
 
 passport.use(new googleStrategy ({
-    clientID: process.env.googleID,
-    clientSecret: process.env.googleSecret,
-    callbackURL: process.env.googleCallback
-    },
-    async function (accessToken,refreshToken, profile, email, done) {
-      // console.log(email._json)
-      const user = await User.findOne({where: {email: email._json.email}})
-      if (user) {
-        console.log('user found')
-        console.log(user.dataValues)
-        return done(null, user)
+  clientID: process.env.googleID,
+  clientSecret: process.env.googleSecret,
+  callbackURL: process.env.googleCallback
+  },
+  function (accessToken,refreshToken, profile, email, done) {
+    console.log(email._json)
+    User.findOrCreate({
+      where: {
+        email: email._json.email,
+        firstName: email._json.given_name,
+        lastName: email._json.family_name
       }
-      else {
-        console.log('creating user')
-        User.create({
-          id: email.id,
-          firstName: email._json.givenName,
-          lastName: email._json.familyName,
-          email: email._json.email,
-          createdAt: new Date(),
-          updatedAt: new Date()
-        })
-        return done(null, user)
-      }
-    }
-))
+    }).then(function(user) {
+      return done(null, user[0].dataValues);
+    });
+}))
+
 
 passport.serializeUser(function(user, done) {
-  done(null, user.id);
+  console.log('*****serializing')
+  console.log(user)
+  done(null, user.email);
 });
 
 passport.deserializeUser(function(id, done) {
-  User.findByPk(id).then(user => {
-    done(err, user);
-  })
+  // console.log('deserializing')
+  // User.findByPk(id).then(user => {
+  //   done(null, user)
+  // }).catch(function (err) {
+  //   done(err, null)
+  // })
+  done(null, id)
 });
