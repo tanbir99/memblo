@@ -15,8 +15,8 @@ module.exports = (sequelize, DataTypes) => {
   };
   Session.init({
     sid: DataTypes.STRING,
+    userId: DataTypes.STRING,
     expires: DataTypes.DATE,
-    email: DataTypes.STRING,
     data: DataTypes.TEXT
   }, {
     sequelize,
