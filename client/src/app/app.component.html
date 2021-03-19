@@ -1,5 +1,6 @@
-<mat-toolbar color="primary">
-    <mat-toolbar-row>
-      <span>{{title}}</span>
-    </mat-toolbar-row>
+<div *ngIf="router.url != '/login'">
+  <app-top-bar [title]="title"></app-top-bar>
+</div>
+
+
   <router-outlet></router-outlet>
